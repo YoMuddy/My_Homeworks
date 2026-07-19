@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой умный блокнот</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .note-item {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+        }
+        .note-date {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        .btn-edit {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📝 Мой Личный Блокнот</h1>
+
+    <div class="card">
+        <h2>Добавить новую заметку</h2>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <input type="text" name="title" placeholder="Введите заголовок заметки" required>
+            </div>
+            <div class="form-group">
+                <textarea name="content" placeholder="Напишите текст вашей заметки..." rows="4" required></textarea>
+            </div>
+            <button type="submit">Добавить в базу</button>
+        </form>
+    </div>
+
+    <h2>Поиск заметок</h2>
+    <form action="/" method="GET" class="search-container">
+        <input type="text" name="search" placeholder="Поиск по названию или тексту..." value="{{ search_query }}">
+        <button type="submit">Найти</button>
+        {% if search_query %}
+            <a href="/" style="padding-top: 10px; color: #7f8c8d;">Сбросить</a>
+        {% endif %}
+    </form>
+
+    <hr>
+
+    <h2>Ваш список заметок</h2>
+    {% if not notes %}
+        <p style="text-align: center; color: #7f8c8d;">Заметок не найдено...</p>
+    {% endif %}
+
+    <div>
+        {% for note in notes %}
+            <div class="note-item">
+                <h3 style="margin-top: 0; color: #2c3e50;">{{ note.title }}</h3>
+                <div class="note-date">📅 Создано: {{ note.date_created.strftime('%d.%m.%Y %H:%M') }}</div>
+                <p style="white-space: pre-wrap; color: #555;">{{ note.content }}</p>
+                <div class="actions">
+                    <a href="{{ url_for('edit_note', note_id=note.id) }}" class="btn-edit">✏️ Редактировать</a>
+                    <form action="{{ url_for('delete_note', note_id=note.id) }}" method="POST" style="display:inline;">
+                        <button type="submit" class="btn-delete" onclick="return confirm('Вы точно хотите удалить эту заметку?');">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
