@@ -1,0 +1,45 @@
+{% extends 'bookings/base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+    <h1 class="text-2xl font-bold text-gray-950 mb-2">Бронирование столика</h1>
+    <p class="text-sm text-gray-500 mb-6">Пожалуйста, укажите дату и желаемое время. Мы работаем с 8:00 до 18:00.</p>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        
+        <!-- Выводим общие ошибки формы (например, если столик занят) -->
+        {% if form.non_field_errors %}
+            <div class="p-4 mb-4 text-sm text-red-800 bg-red-50 rounded-xl border border-red-100">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <!-- Красиво стилизуем поля Django-формы -->
+        {% for field in form %}
+            <div class="flex flex-col gap-1">
+                <label class="text-sm font-semibold text-gray-700">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="text-xs text-red-500 mt-1">{{ field.errors.as_text }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3 px-4 rounded-xl transition shadow-xs cursor-pointer">
+            Подтвердить бронь
+        </button>
+    </form>
+    
+    <div class="mt-4 text-center">
+        <a href="{% url 'tables_list' %}" class="text-sm text-gray-500 hover:text-gray-800 transition">← Назад к списку</a>
+    </div>
+</div>
+
+<!-- Небольшой скрипт, чтобы стандартные поля Django выглядели аккуратно в Tailwind -->
+<script>
+    document.querySelectorAll('input, select').forEach(el => {
+        el.classList.add('w-full', 'px-4', 'py-2.5', 'bg-gray-50', 'border', 'border-gray-200', 'rounded-xl', 'focus:outline-none', 'focus:ring-2', 'focus:ring-amber-500', 'focus:bg-white', 'transition', 'text-sm');
+    });
+</script>
+{% endblock %}
