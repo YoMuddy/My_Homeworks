@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование заметки</title>
+    <!-- Применяем те же стили, что и на главной, для единства дизайна -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 600px; /* Делаем карточку редактирования чуть компактнее */
+            margin: 50px auto; /* Добавляем отступ сверху, чтобы карточка была по центру */
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 5px solid #3498db; /* Синяя полоса теперь сверху карточки */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        .btn-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        button {
+            background-color: #2ecc71; /* Зелёная кнопка для сохранения изменений */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        .btn-cancel {
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .btn-cancel:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>✏️ Редактировать заметку</h1>
+
+    <!-- КАРТОЧКА РЕДАКТИРОВАНИЯ -->
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label for="title">Заголовок заметки:</label>
+                <input type="text" id="title" name="title" value="{{ note.title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Текст заметки:</label>
+                <textarea id="content" name="content" rows="6" required>{{ note.content }}</textarea>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit">Сохранить изменения</button>
+                <a href="{{ url_for('index') }}" class="btn-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

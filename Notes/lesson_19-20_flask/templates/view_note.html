@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ note.title }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background-color: #f4f7f6; color: #333;">
+
+    <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h1 style="color: #2c3e50; margin-top: 0;">{{ note.title }}</h1>
+
+        <div style="color: #888; font-size: 0.9em; margin-bottom: 20px;">
+            📅 Создано: {{ note.date_created.strftime('%d.%m.%Y %H:%M') }}
+        </div>
+
+        <div style="white-space: pre-wrap; line-height: 1.6; font-size: 1.1em; color: #555; margin-bottom: 30px;">
+            {{ note.content }}
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+
+        <div style="display: flex; gap: 15px;">
+            <a href="{{ url_for('index') }}" style="display: inline-block; padding: 10px 20px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                ⬅ На главную
+            </a>
+            <a href="{{ url_for('edit_note', note_id=note.id) }}" style="display: inline-block; padding: 10px 20px; background-color: #ffc107; color: #212529; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                ✏ Редактировать
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
