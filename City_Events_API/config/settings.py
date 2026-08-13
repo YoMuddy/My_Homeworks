@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # Добавляем наши новые инструменты:
     'rest_framework',
     'rest_framework_simplejwt',
-    'events',
+    'events.apps.EventsConfig',
 ]
 
 MIDDLEWARE = [
